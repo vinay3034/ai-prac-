@@ -1,0 +1,38 @@
+Practical 1A: dfs
+graph1={'A':['B','C'],
+        'B':['A'],
+        'C':['A','E','F'],
+        'D':['E'],
+        'E':['C','D','F'],
+        'F':['E','C']}
+def dfs(graph1,node,visited):
+    if node not in visited:
+        visited.append(node)
+        for n in graph1[node]:
+            dfs(graph1,n,visited)
+        return(visited)
+dfs_traversal=dfs(graph1,'A',[])
+print(dfs_traversal)
+
+1B) bfs
+graph={'5':['3','7'],
+       '3':['2','4'],
+       '7':['8'],
+       '2':[],
+       '4':['8'],
+       '8':[]}
+visited=[]
+queue=[]
+def bfs(visited,graph,node):
+    visited.append(node)
+    queue.append(node)
+    while queue:
+        m=queue.pop(0)
+        print(m,end=" ")
+        for neighbour in graph[m]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+print("Following is the Breadth-First-Search: ")
+bfs_traversal=bfs(visited,graph,'5')
+print(bfs_traversal)
