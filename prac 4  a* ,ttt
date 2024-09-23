@@ -1,0 +1,167 @@
+Practical 4A: A*algorithm
+def aStarAlgo(start_node, stop_node):
+    open_set = set(start_node)
+    closed_set = set()
+    g = {}               #store distance from starting node
+    parents = {}         # parents contains an adjacency map of all nodes
+    #distance of starting node from itself is zero
+    g[start_node] = 0
+    parents[start_node] = start_node
+    while len(open_set) > 0:
+        n = None
+        #node with lowest f() is found
+        for v in open_set:
+            if n == None or g[v] + heuristic(v) < g[n] + heuristic(n):
+                n = v
+        if n == stop_node or Graph_nodes[n] == None:
+            pass
+        else:
+            for (m, weight) in get_neighbors(n):
+                if m not in open_set and m not in closed_set:
+                    open_set.add(m)
+                    parents[m] = n
+                    g[m] = g[n] + weight
+                else:
+                    if g[m] > g[n] + weight:
+                        #update g(m)
+                        g[m] = g[n] + weight
+                        #change parent of m to n
+                        parents[m] = n
+                        #if m in closed set,remove and add to open
+                        if m in closed_set:
+                            closed_set.remove(m)
+                            open_set.add(m)
+
+                            
+        if n == None:
+            print('Path does not exist!')
+            return None
+        if n == stop_node:
+            path = []
+            while parents[n] != n:
+                path.append(n)
+                n = parents[n]
+            path.append(start_node)
+            path.reverse()
+            print('Path found: {}'.format(path))
+            return path
+        open_set.remove(n)
+        closed_set.add(n)
+    print('Path does not exist!')
+    return None
+def get_neighbors(v):
+    if v in Graph_nodes:
+        return Graph_nodes[v]
+    else:
+        return None
+def heuristic(n):
+    H_dist = {
+        'A': 11,
+        'B': 6,
+        'C': 99,
+        'D': 1,
+        'E': 7,
+        'G': 0,
+    }
+    return H_dist[n]
+
+#Describe your graph here
+Graph_nodes = {
+    'A': [('B', 2), ('E', 3)],
+    'B': [('A', 2), ('C', 1), ('G', 9)],
+    'C': [('B', 1)],
+    'D': [('E', 6), ('G', 1)],
+    'E': [('A', 3), ('D', 6)],
+    'G': [('B', 9), ('D', 1)]
+}
+aStarAlgo('A', 'G')
+
+
+tic tak toee
+
+
+print('*******TIC-Tac-Toe Game********')
+import os
+import time
+
+board =[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+player =1
+
+Win = 1
+Draw = -1
+Running =0
+Stop = 1
+
+Game = Running
+Mark = 'X'
+
+def DrawBoard():
+    print(" %c| %c| %c" %(board[1],board[2],board[3]))
+    print("__|__|__")
+    print(" %c| %c| %c" %(board[4],board[5],board[6]))
+    print("__|__|__")
+    print(" %c| %c| %c" %(board[7],board[8],board[9]))
+    print("__|__|__")
+
+def CheckPosition(x):
+    if(board[x] == ' '):
+        return True
+    else:
+        return False
+
+def CheckWin():
+    global Game
+    if(board[1]==board[2] and board[2]==board[3] and board[1]!=' '):
+        Game = Win
+    elif(board[4]==board[5] and board[5]==board[6] and board[4]!=' '):
+        Game = Win
+    elif(board[7]==board[8] and board[8]==board[9] and board[7]!=' '):
+        Game = Win
+    elif(board[1]==board[4] and board[4]==board[7] and board[1]!=' '):
+        Game = Win
+    elif(board[2]==board[5] and board[5]==board[8] and board[2]!=' '):
+        Game = Win
+    elif(board[3]==board[6] and board[6]==board[9] and board[3]!=' '):
+        Game = Win
+    elif(board[1]==board[5] and board[5]==board[9] and board[5]!=' '):
+        Game = Win
+    elif(board[3]==board[5] and board[5]==board[7] and board[5]!=' '):
+        Game = Win
+    elif(board[1]!=' ' and board[2]!=' ' and board[3]!=' ' and
+         board[4]!=' ' and board[5]!=' ' and board[6]!=' ' and
+         board[7]!=' ' and board[8]!=' ' and board[9]!=' '):
+        Game = Draw
+    else:
+        Game = Running
+print("Tic-Tac-Toe Game")
+print("Player 1 [x] --- Player 2 [0]\n")
+print()
+print()
+print("Please Wait....")
+time.sleep(1)
+while(Game == Running):
+    os.system('cls')
+    DrawBoard()
+    if(player % 2 != 0):
+        print("Player 1's Chance")
+        Mark = 'X'
+    else:
+        print("Player 2's Chance")
+        Mark = 'O'
+    choice = int(input("Enter the position between [1-9] where you want to mark : "))
+    if(CheckPosition(choice)):
+        board[choice]=Mark
+        player+=1
+        CheckWin()
+
+
+os.system('cls')
+DrawBoard()
+if(Game==Draw):
+    print("Game Draw")
+elif(Game==Win):
+    player-=1
+    if(player%2!=0):
+        print("Player 1 won")
+    else:
+        print("Player 2 won")
