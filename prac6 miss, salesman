@@ -1,0 +1,87 @@
+Practical 6A: missionaries & cannibals problem
+from collections import deque
+# Define the initial and goal states
+START_STATE = (3, 3, 0, 0, 0)  # (left_missionaries, left_cannibals, right_missionaries, right_cannibals, boat_position)
+GOAL_STATE = (0, 0, 3, 3, 1)    # (left_missionaries, left_cannibals, right_missionaries, right_cannibals, boat_position)
+def is_valid_state(state):
+    lm, lc, rm, rc, _ = state
+    # Check if missionaries are safe on both sides
+    if (lm > 0 and lm < lc) or (rm > 0 and rm < rc):
+        return False
+    return True
+def get_next_states(state):
+    lm, lc, rm, rc, boat = state
+    next_states = []
+    if boat == 0:  # Boat on the left side
+        for m, c in [(2, 0), (1, 0), (0, 1), (1, 1), (0, 2)]:
+            new_lm = lm - m
+            new_lc = lc - c
+            new_rm = rm + m
+            new_rc = rc + c
+            if 0 <= new_lm <= 3 and 0 <= new_lc <= 3 and 0 <= new_rm <= 3 and 0 <= new_rc <= 3:
+                if is_valid_state((new_lm, new_lc, new_rm, new_rc, 1)):
+                    next_states.append((new_lm, new_lc, new_rm, new_rc, 1))
+    else:  # Boat on the right side
+        for m, c in [(2, 0), (1, 0), (0, 1), (1, 1), (0, 2)]:
+            new_lm = lm + m
+            new_lc = lc + c
+            new_rm = rm - m
+            new_rc = rc - c
+            if 0 <= new_lm <= 3 and 0 <= new_lc <= 3 and 0 <= new_rm <= 3 and 0 <= new_rc <= 3:
+                if is_valid_state((new_lm, new_lc, new_rm, new_rc, 0)):
+                    next_states.append((new_lm, new_lc, new_rm, new_rc, 0))
+    return next_states
+def bfs(start, goal):
+    queue = deque([(start, [])])
+    visited = set()
+    while queue:
+        state, path = queue.popleft()
+        if state in visited:
+            continue
+        visited.add(state)
+        if state == goal:
+            return path
+        for next_state in get_next_states(state):
+            queue.append((next_state, path + [next_state]))
+    return None
+def print_state(state):
+    lm, lc, rm, rc, boat = state
+    boat_position = 'left' if boat == 0 else 'right'
+    print(f"Left: {lm} missionaries, {lc} cannibals | Right: {rm} missionaries, {rc} cannibals | Boat: {boat_position}")
+
+# Example usage
+solution = bfs(START_STATE, GOAL_STATE)
+if solution:
+    for state in solution:
+        print_state(state)
+        print()
+else:
+    print("No solution found.")
+
+6B: travelling salesman problem
+from sys import maxsize
+from itertools import permutations
+V = 4
+
+def travellingSalesmanProblem(graph,s):
+    vertex = []
+    for i in range(V):
+        if i != s:
+            vertex.append(i)
+
+    min_path = maxsize
+    next_permutation=permutations(vertex)
+    for i in next_permutation:
+        current_pathweight = 0
+        k = s
+        for j in i:
+            current_pathweight += graph[k][j]
+            k = j
+        current_pathweight += graph[k][s]
+        min_path = min(min_path,current_pathweight)
+
+    return min_path
+
+graph = [[0,10,15,20],[10,0,35,25],[15,35,0,30],[20,25,30,0]]
+s = 0
+print(travellingSalesmanProblem(graph,s))
