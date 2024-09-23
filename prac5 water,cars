@@ -1,0 +1,54 @@
+Practical 5A: water jug problem
+from collections import deque
+
+def print_steps(steps):
+    for steps in steps:
+        print(steps)
+
+def water_jug_problem(x,y,z):
+    if z > max(x,y):
+        return "Not possible"
+    visited = set()
+    queue = deque([(0,0,[])])
+    visited.add((0,0))
+    while queue:
+        a,b,path = queue.popleft()
+        #print(f"current state:jug1={a},jug2={b}")
+
+        if a==z or b==z:
+            path.append(f"reached target with jug1={a},jug2={b}")
+            print_steps(path)
+            return True
+        possible_state=[
+            (x,y,path+[f"fill jug1"]),
+            (a,y,path+[f"fill jug2"]),
+            (0,b,path+[f"fill jug1"]),
+            (a,0,path+[f"fill jug2"]),
+            (min(a+b,x),b-(min(a+b,x)-a),path+[f"pour jug2 into jug1"]),
+            (a-(min(a+b,y)-b),min(a+b,y),path+[f"pour jug1 into jug2"]),
+        ]
+        for state in possible_state:
+            new_a,new_b,new_path=state
+            if(new_a,new_b) not in visited:
+                visited.add((new_a,new_b))
+                queue.append((new_a,new_b,new_path))
+    print("NO solution found.")
+    return False
+
+x=int(input("Enter capacity for jug1: "))
+y=int(input("Enter capacity for jug2: "))
+z=int(input("Enter the required amount of water: "))
+result=water_jug_problem(x,y,z)
+print(result)
+
+
+
+
+5B: random card shuffling
+import random
+suits = ['Hearts','Diamonds','Clubs','Spades']
+ranks = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+deck = [f'{rank} of {suit}' for suit in suits for rank in ranks]
+random.shuffle(deck)
+for i in range(3):
+    print(deck[i])
