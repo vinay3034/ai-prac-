@@ -1,0 +1,46 @@
+tower of Hanoi:
+def toh(n,s,e,t):
+    if n==1:
+        print("mode disk 1 form start",s,"to end",e)
+        return
+    toh(n-1,s,t,e)
+    print("mode disk",n,"from start",s," to end",e)
+    toh(n-1,t,e,s)
+    
+n=3
+toh(n,'a','b','c')
+
+n queen 
+n=int(input("Enter size of board nxn :"))
+board=[[0 for i in range(n)]for i in range(n)]
+
+def check_column(board,row,column):
+    for i in range(row,-1,-1):
+        if board[i][column]==1:
+            return False
+    return True
+    
+def check_diagonal(board,row,column):
+    for i,j in zip(range(row,-1,-1),range(column,-1,-1)):
+        if board[i][j]==1:
+            return False
+    for i,j in zip(range(row,-1,-1),range(column,n)):
+        if board[i][j]==1:
+            return False
+    return True
+    
+def nqn(board,row):
+    if n==row:
+        return True
+    
+    for i in range(n):
+        if(check_column(board,row,i)==True and check_diagonal(board,row,i)==True):
+            board[row][i]=1
+            if(nqn(board,row+1)):
+                return True
+            board[row][i]=0
+    return False
+
+nqn(board,0)
+for row in board:
+    print(row)
