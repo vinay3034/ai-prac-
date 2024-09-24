@@ -1,0 +1,107 @@
+Practical 9A: Grid View Control and Hyperlink
+WebForm1.aspx.cs:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.AddRange(new DataColumn[3] {
+                new DataColumn("Id"), new DataColumn("Name"), new DataColumn("Country"),
+                });
+                dt.Rows.Add(1, "John Staten", "United States");
+                dt.Rows.Add(2, "Mudassar Khan", "India");
+                dt.Rows.Add(3, "Suzanne Mathews", "France");
+                dt.Rows.Add(4, "Robert Schidner", "Russia");
+                GridView1.DataSource = dt;
+                GridView1.DataBind();
+            }
+        }
+
+WebForm1.aspx:
+<asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+            <Columns>
+                <asp:HyperLinkField DataNavigateUrlFields="Id" DataNavigateUrlFormatString="~/Details.aspx?Id={0}" DataTextField="Name" HeaderText="Name" />
+            </Columns>
+        </asp:GridView>
+
+Output:
+ 
+—------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 9B: Grid View
+WebForm2.aspx.cs:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
+            string selectSQL = "SELECT ProductID, ProductName, UnitPrice FROM Product";
+            SqlCommand cmd = new SqlCommand(selectSQL, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Product");
+
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+protected void GridView1_RowCommand1(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Select")
+            {
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+                GridViewRow row = GridView1.Rows[rowIndex];
+
+                string ProductName = row.Cells[0].Text;
+
+                string UnitPrice = row.Cells[1].Text;
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('ProductName: " + ProductName + "\\n UnitPrice: " + UnitPrice + "');", true);
+            }
+        }
+
+WebForm1.aspx:
+<asp:GridView ID="GridView1" runat="server" OnRowCommand="GridView1_RowCommand1" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+            <Columns>
+                <asp:CommandField ButtonType="Button" ShowSelectButton="True" />
+            </Columns>
+        </asp:GridView>
+
+Output:
+ 
+ 
+—------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 9C: Grid View Paging
+WebForm3.aspx.cs:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!this.IsPostBack)
+            {
+                this.BindGrid();
+            }
+        }
+        private void BindGrid()
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
+
+            string selectSQL = "SELECT ProductID, ProductName, UnitPrice FROM Product";
+            SqlCommand cmd = new SqlCommand(selectSQL, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Product");
+            GridView1.DataSource = ds;
+            GridView1.DataBind();
+        }
+
+protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            this.BindGrid();
+        }
+
+Output:
+ 
+ 
+—------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
