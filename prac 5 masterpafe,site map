@@ -1,5 +1,7 @@
 Practical 5A : 
 A.	Create Web Form to demonstrate use of Website Navigation controls and Site Map.
+create 3 webforms: 
+
 Site Map:
 <?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
@@ -9,7 +11,13 @@ Site Map:
     </siteMapNode>
 </siteMap>
 
+web.config->add code after sustem.web
+<sitemap>
+    <provider>
+        <remove name="MySqlSiteMapProvider">
+</provider>
 
+<sitemap>
 
 Practical 5B:
 Stylesheet:
