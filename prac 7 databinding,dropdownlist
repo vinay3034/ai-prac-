@@ -1,0 +1,95 @@
+A) Create a web application to display Databinding using dropdownlist control.
+Create a web page with DropDownList control, one Button and one Label
+control.
+protected void Page_Load(object sender, EventArgs e)
+{
+if (IsPostBack == false)
+{
+SqlConnection conn=new SqlConnection();
+conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
+Security=True";
+//stringconnStr = ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
+//SqlCommand cmd = new SqlCommand("Select Id,city from City", conn);
+SqlCommand cmd = new SqlCommand(“select Id,city from City”, conn);
+conn.Open();
+SqlDataReader reader = cmd.ExecuteReader();
+DropDownList1.DataSource = reader;
+DropDownList1.DataTextField = "City";
+DropDownList1.DataBind();
+reader.Close();
+conn.Close();
+}
+}
+protected void Button1_Click(object sender, EventArgs e)
+{
+Label1.Text = "You Have Selected : " + DropDownList1.SelectedValue;
+} }
+
+
+B) Create a web application for to display the phone no of an author using database
+protected void Page_Load(object sender, EventArgs e)
+{
+if (IsPostBack == false)
+{
+SqlConnection conn=new SqlConnection();
+conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
+Security=True";
+//stringconnStr =
+ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
+//SqlCommand cmd = new SqlCommand("Select Id,city from City", conn);
+SqlCommand cmd = new SqlCommand("select * from Book", conn);
+conn.Open();
+SqlDataReader reader = cmd.ExecuteReader();
+DropDownList1.DataSource = reader;
+
+DropDownList1.DataTextField = "book";
+DropDownList1.DataBind();
+reader.Close();
+conn.Close();
+}
+}
+protected void Button1_Click(object sender, EventArgs e)
+{
+SqlConnection conn=new SqlConnection();
+conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
+Security=True";
+string selectSQL;
+selectSQL = "select author from Book ";
+selectSQL += "WHERE id=" + DropDownList1.SelectedItem.Value + "";
+SqlCommand cmd = new SqlCommand(selectSQL, conn);
+cmd.Connection = conn;
+conn.Open();
+SqlDataReader reader = cmd.ExecuteReader();
+while (reader.Read())
+{
+Label1.Text = reader["author"].ToString();
+}
+reader.Close();
+conn.Close();
+}
+
+C) Create a web application for inserting and deleting record from a database. (Using Execute-
+Non Query).
+
+4 Lables , 3 Textboxes and 1 Button
+protected void Button1_Click(object sender, EventArgs e)
+{
+SqlConnection conn=new SqlConnection();
+conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
+Security=True";
+string InsertQuery = "insert into Book values(@id, @book,
+@author)";
+SqlCommand cmd = new SqlCommand(InsertQuery, conn);
+cmd.Parameters.AddWithValue("@id", TextBox1.Text);
+cmd.Parameters.AddWithValue("@book", TextBox2.Text);
+cmd.Parameters.AddWithValue("@author", TextBox3.Text);
+conn.Open();
+cmd.ExecuteNonQuery();
+Label4.Text = "Record Inserted Successfuly.";
+conn.Close();
+}
+
+stringInsertQuery = "delete from branch where NAME=@NAME";
+SqlCommandcmd = new SqlCommand(InsertQuery, con);
+cmd.Parameters.AddWithValue("@NAME", TextBox1.Text);
+con.Open( );
