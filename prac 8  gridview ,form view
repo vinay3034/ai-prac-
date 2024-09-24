@@ -1,0 +1,115 @@
+1.Create Database Patkar
+2. Create Table Employee
+3. Insert Data in Employee Table
+4. Add Webform in Visual Studio
+5. Add DetailsView From ToolBox
+6. Set DetailsView property Allowpaging True
+7. Double click DetailsView Property(in Event) PagingIndex
+
+
+Practical 8A:
+WebForm2.aspx.cs:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack) BindFormView();
+        }
+                private void BindFormView() {
+                    var conn = new SqlConnection("Data Source=COMP125;Initial Catalog=DB1;Integrated Security=True");
+                    var cmd = new SqlCommand("SELECT * FROM EmpInfo", conn);
+                    var adapter = new SqlDataAdapter(cmd);
+
+                    var ds = new DataSet();
+                    adapter.Fill(ds, "EmpInfo");
+                    DetailsView1.DataSource = ds;
+                    DetailsView1.DataBind();
+                }
+
+protected void DetailsView1_PageIndexChanging(object sender, DetailsViewPageEventArgs e)
+        {
+            DetailsView1.PageIndex = e.NewPageIndex;
+            BindFormView();
+        }
+
+
+Output:
+ 
+—------------------------------------------------------------------------------------------------------------------------------------------------[02.09.2024]
+Practical 8B : Form View
+b.Create a web application to demonstrate data binding using DetailsView and
+FormView Control.
+
+
+Connection Query: Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True
+WebForm1.aspx.cs:
+public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack) {
+            BindFormView();
+                }
+            }
+             private void BindFormView() {
+                SqlConnection conn = new SqlConnection();
+
+                conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
+                string selectSQL = "SELECT * FROM EmpData";
+                SqlCommand cmd = new SqlCommand(selectSQL, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "EmpData");
+                FormView1.DataSource = ds;
+                FormView1.DataBind();
+             }
+        protected void FormView1_PageIndexChanging(object sender, FormViewPageEventArgs e)
+        {
+            FormView1.PageIndex = e.NewPageIndex;
+            this.BindFormView();
+        }
+    }
+
+Form view template:
+<asp:FormView ID="FormView1" runat="server" AllowPaging="True" OnPageIndexChanging="FormView1_PageIndexChanging">
+            <ItemTemplate>  
+                    <table class="table table-bordered table-striped">  
+                        <tr>  
+                            <td>EID : </td>  
+                            <td><%#Eval("EID") %></td>  
+                        </tr>  
+                        <tr>  
+                            <td>EName : </td>  
+                            <td><%#Eval("EName") %></td>  
+                        </tr>  
+                        <tr>  
+                            <td>Salary : </td>  
+                            <td><%#Eval("Salary") %></td>  
+                        </tr> 
+                    </table>  
+                </ItemTemplate> 
+        </asp:FormView>
+
+Output:
+ 
+ 
+ 
+—------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 8C: Grid View
+C:Create a web application to display Using Disconnected Data Access and Data
+Binding using GridView
+
+WebForm2.aspx.cs:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
+            String selectSQL = "SELECT * FROM EmpData";
+            SqlCommand cmd = new SqlCommand(selectSQL, con);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+
+            con.Open();
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "EmpData");
+            GridView1.DataSource = ds.Tables["EmpData"];
+            GridView1.DataBind();
+            con.Close();
+        }
