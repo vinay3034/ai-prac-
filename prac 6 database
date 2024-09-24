@@ -1,0 +1,48 @@
+WebForm1:
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn=new SqlConnection();
+            conn.ConnectionString = "Data Source=COMP259;Initial Catalog=DB1;Integrated Security=True";
+
+            SqlCommand cmd = new SqlCommand(TextBox1.Text, conn);
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                TextBox2.Text += reader["Id"].ToString() + " " + reader["Name"].ToString() + " "
+                + reader["Password"].ToString() +
+                "\n";
+            }
+            reader.Close();
+            conn.Close();
+        }
+
+
+Practical 6B
+
+WebForm2.apsx:
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = " Data Source=COMP259;Initial Catalog=DB1;Integrated Security=True";
+
+            SqlCommand cmd = new SqlCommand(TextBox1.Text, conn);
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    ListBox1.Items.Add(reader[i].ToString());
+                }
+            }
+            reader.Close();
+            conn.Close();
+        }
+
+prac 6 c
+Connection String : Data Source=COMP259;Initial Catalog=DB1;Integrated Security=True
+
+SQL Libraries :
+using System.Data;
+using System.Data.SqlClient;
