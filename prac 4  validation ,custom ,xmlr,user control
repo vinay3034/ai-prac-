@@ -1,0 +1,67 @@
+a. Aim: Create a Registration form to demonstrate use of various Validation
+
+controls.
+
+i. Using RequiredFieldValidator, CompareValidator, RangeValidator,
+RegularExpressionValidator :
+
+ii. Using Custom Validator.
+⮚ Code:
+∙ ServerValidate Event:
+protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
+{
+string str = args.Value;
+args.IsValid = false;
+if(str.Length<6||str.Length>25)
+    {
+        return;
+    }
+}
+
+
+
+
+b. Aim: Create Web Form to demonstrate use of Adrotator Control.
+⮚ Code:
+<?xml version="1.0" encoding="utf-8" ?>
+<Advertisements>
+<Ad>
+<ImageUrl>google.png</ImageUrl>
+<NavigateUrl>http://www.google.com</NavigateUrl>
+<AlternateText>Google’s site</AlternateText>
+</Ad>
+<Ad>
+<ImageUrl>amazon.png</ImageUrl>
+<NavigateUrl>http://www.google.com</NavigateUrl>
+<AlternateText>Amazon’s site</AlternateText>
+</Ad>
+<Ad>
+<ImageUrl>insta.jfif</ImageUrl>
+<NavigateUrl>http://www.google.com</NavigateUrl>
+<AlternateText>Insta’s site</AlternateText>
+</Ad>
+</Advertisements>
+
+
+
+
+c. Aim: Create Web Form to demonstrate use of User Controls
+⮚ Code:
+c) Create Web Form to demonstrate use of User Controls.
+Right click on the project folder on the Solution Explorer and choose Add New Item.
+Select Web User Control from the Add New Item dialog box and name it footer.ascx. Initially,
+the footer.ascx contains only a Control directive.
+<table>
+<tr>
+<td align="center"> Copyright ©2023 Patkar-Varde College.</td>
+</tr>
+<tr> <td align="center"> Location: Mumbai</td>
+</tr>
+</table>
+
+Add New web page (Form) –
+To add the user control to your web page, you must add the Register directive and an instance
+of the user control to the page.
+<%@ Register Src="~/footer.ascx" TagName="footer" TagPrefix="Tfooter" %>
+After </div>
+<Tfooter:footer ID="footer1" runat="server" />
