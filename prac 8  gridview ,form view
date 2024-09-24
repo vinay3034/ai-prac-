@@ -9,87 +9,173 @@
 
 Practical 8A:
 WebForm2.aspx.cs:
-protected void Page_Load(object sender, EventArgs e)
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) BindFormView();
+            if (!IsPostBack)
+            {
+                BindFormView();
+            }
         }
-                private void BindFormView() {
-                    var conn = new SqlConnection("Data Source=COMP125;Initial Catalog=DB1;Integrated Security=True");
-                    var cmd = new SqlCommand("SELECT * FROM EmpInfo", conn);
-                    var adapter = new SqlDataAdapter(cmd);
 
-                    var ds = new DataSet();
-                    adapter.Fill(ds, "EmpInfo");
-                    DetailsView1.DataSource = ds;
-                    DetailsView1.DataBind();
-                }
+        private void BindFormView()
+        {
+            // Establish SQL connection
+            var conn = new SqlConnection("Data Source=CHIVILKARS;Initial Catalog=patkar;Integrated Security=True");
+            var cmd = new SqlCommand("SELECT * FROM Employee", conn);
+            var adapter = new SqlDataAdapter(cmd);
 
-protected void DetailsView1_PageIndexChanging(object sender, DetailsViewPageEventArgs e)
+            // Fill the DataSet
+            var ds = new DataSet();
+            adapter.Fill(ds, "Employee");
+
+            // Bind DataSet to the DetailsView control
+            DetailsView1.DataSource = ds;
+            DetailsView1.DataBind();
+        }
+
+        // Handle paging
+        protected void DetailsView1_PageIndexChanging1(object sender, DetailsViewPageEventArgs e)
         {
             DetailsView1.PageIndex = e.NewPageIndex;
             BindFormView();
         }
+    }
+}
 
 
-Output:
- 
+aspx file
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>DetailsView Example</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!-- DetailsView to display employee data -->
+        <asp:DetailsView ID="DetailsView1" runat="server" AllowPaging="True" AutoGenerateRows="False" 
+                         OnPageIndexChanging="DetailsView1_PageIndexChanging1" Width="300px">
+            <Fields>
+                <asp:BoundField DataField="EID" HeaderText="EID" SortExpression="EID" />
+                <asp:BoundField DataField="ENAME" HeaderText="ENAME" SortExpression="ENAME" />
+                <asp:BoundField DataField="SALARY" HeaderText="SALARY" SortExpression="SALARY" />
+            </Fields>
+        </asp:DetailsView>
+    </form>
+</body>
+</html>
+
 —------------------------------------------------------------------------------------------------------------------------------------------------[02.09.2024]
 Practical 8B : Form View
 b.Create a web application to demonstrate data binding using DetailsView and
 FormView Control.
 
 
-Connection Query: Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True
-WebForm1.aspx.cs:
-public partial class WebForm1 : System.Web.UI.Page
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) {
-            BindFormView();
-                }
+            if (!IsPostBack)
+            {
+                BindFormView();
             }
-             private void BindFormView() {
-                SqlConnection conn = new SqlConnection();
+        }
 
-                conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
-                string selectSQL = "SELECT * FROM EmpData";
-                SqlCommand cmd = new SqlCommand(selectSQL, conn);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataSet ds = new DataSet();
-                adapter.Fill(ds, "EmpData");
-                FormView1.DataSource = ds;
-                FormView1.DataBind();
-             }
-        protected void FormView1_PageIndexChanging(object sender, FormViewPageEventArgs e)
+        private void BindFormView()
+        {
+            // Establish SQL connection
+            SqlConnection conn = new SqlConnection("Data Source=CHIVILKARS;Initial Catalog=patkar;Integrated Security=True");
+            string selectSQL = "SELECT * FROM Employee";
+            SqlCommand cmd = new SqlCommand(selectSQL, conn);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Employee");
+
+            // Bind DataSet to the FormView control
+            FormView1.DataSource = ds;
+            FormView1.DataBind();
+        }
+
+        // Handle paging
+        protected void FormView1_PageIndexChanging1(object sender, FormViewPageEventArgs e)
         {
             FormView1.PageIndex = e.NewPageIndex;
-            this.BindFormView();
+            BindFormView();
         }
     }
+}
+aspx file :
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
 
-Form view template:
-<asp:FormView ID="FormView1" runat="server" AllowPaging="True" OnPageIndexChanging="FormView1_PageIndexChanging">
-            <ItemTemplate>  
-                    <table class="table table-bordered table-striped">  
-                        <tr>  
-                            <td>EID : </td>  
-                            <td><%#Eval("EID") %></td>  
-                        </tr>  
-                        <tr>  
-                            <td>EName : </td>  
-                            <td><%#Eval("EName") %></td>  
-                        </tr>  
-                        <tr>  
-                            <td>Salary : </td>  
-                            <td><%#Eval("Salary") %></td>  
-                        </tr> 
-                    </table>  
-                </ItemTemplate> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>FormView Example</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:FormView ID="FormView1" runat="server" AllowPaging="True" OnPageIndexChanging="FormView1_PageIndexChanging1">
+            <EditItemTemplate>
+                EID:
+                <asp:TextBox ID="EIDTextBox" runat="server" Text='<%# Bind("EID") %>' />
+                <br />
+                ENAME:
+                <asp:TextBox ID="ENAMETextBox" runat="server" Text='<%# Bind("ENAME") %>' />
+                <br />
+                SALARY:
+                <asp:TextBox ID="SALARYTextBox" runat="server" Text='<%# Bind("SALARY") %>' />
+                <br />
+                <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" CommandName="Update" Text="Update" />
+                &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+            </EditItemTemplate>
+            <InsertItemTemplate>
+                EID:
+                <asp:TextBox ID="EIDTextBox" runat="server" Text='<%# Bind("EID") %>' />
+                <br />
+                ENAME:
+                <asp:TextBox ID="ENAMETextBox" runat="server" Text='<%# Bind("ENAME") %>' />
+                <br />
+                SALARY:
+                <asp:TextBox ID="SALARYTextBox" runat="server" Text='<%# Bind("SALARY") %>' />
+                <br />
+                <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" CommandName="Insert" Text="Insert" />
+                &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" />
+            </InsertItemTemplate>
+            <ItemTemplate>
+                EID:
+                <asp:Label ID="EIDLabel" runat="server" Text='<%# Bind("EID") %>' />
+                <br />
+                ENAME:
+                <asp:Label ID="ENAMELabel" runat="server" Text='<%# Bind("ENAME") %>' />
+                <br />
+                SALARY:
+                <asp:Label ID="SALARYLabel" runat="server" Text='<%# Bind("SALARY") %>' />
+                <br />
+            </ItemTemplate>
         </asp:FormView>
+    </form>
+</body>
+</html>
 
-Output:
- 
  
  
 —------------------------------------------------------------------------------------------------------------------------------------------------
@@ -97,19 +183,46 @@ Practical 8C: Grid View
 C:Create a web application to display Using Disconnected Data Access and Data
 Binding using GridView
 
-WebForm2.aspx.cs:
-protected void Page_Load(object sender, EventArgs e)
-        {
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
-            String selectSQL = "SELECT * FROM EmpData";
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+namespace WebApplication9 {
+public partial class WebForm1: System.Web.UI.Page {
+protected void Page_Load(object sender, EventArgs e) {
+SqlConnection con = new SqlConnection();
+con.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=patkar;Integrated Security=True";
+String selectSQL = "SELECT * FROM Employee";
+SqlCommand cmd = new SqlCommand(selectSQL, con);
+SqlDataAdapter adapter = new SqlDataAdapter(cmd);
 
-            con.Open();
-            DataSet ds = new DataSet();
-            adapter.Fill(ds, "EmpData");
-            GridView1.DataSource = ds.Tables["EmpData"];
-            GridView1.DataBind();
-            con.Close();
-        }
+con.Open();
+DataSet ds = new DataSet();
+adapter.Fill(ds, "Employee");
+GridView1.DataSource = ds.Tables["Employee"];
+GridView1.DataBind();
+con.Close();
+}
+}
+}
+
+
+aspx file :
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>FormView Example</title>
+</head>
+<body style="height: 339px">
+    <form id="form1" runat="server">
+        <asp:GridView ID="GridView1" runat="server">
+        </asp:GridView>
+    </form>
+</body>
+</html>
