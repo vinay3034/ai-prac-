@@ -1,0 +1,416 @@
+a) Create a simple application to demonstrate use of following concepts. i. Function Overloading 
+Aim: Write a program using function overloading to swap two integer numbers and swap two float numbers.  
+⮚ Code:  
+using System; 
+namespace practical2 
+{ 
+class Overloading 
+{ 
+public void swap(ref int n, ref int m) 
+{ 
+int t; 
+t = n; 
+n = m; 
+m = t; 
+} 
+public void swap(ref float f1, ref float f2) 
+{ 
+float f; 
+f = f1; 
+f1 = f2; 
+f2 = f; 
+} 
+class program 
+{ 
+static void Main(string[] args) 
+{ 
+Overloading objOverloading = new Overloading(); 
+int n = 54, m = 34;
+objOverloading.swap(ref n, ref m); 
+Console.WriteLine("N=" + n + "\tM=" + m); 
+float f1 = 19.5f, f2 = 69.4f; 
+objOverloading.swap(ref f1, ref f2); 
+Console.WriteLine("F1=" + f1 + "\tF2=" + f2); 
+Console.ReadKey(); 
+} 
+} 
+} 
+} 
+
+
+
+ 
+ii. Inheritance (All types) : 
+a) Aim: Write a program to implement Single Level Inheritance. 
+⮚ Code:  
+using System; 
+namespace Inheritance 
+{ 
+class furniture 
+{ 
+public String material = "Table"; 
+public int price = 1500; 
+} 
+class table : furniture 
+{ 
+int Height = 20, surface_area = 50; 
+static void Main(string[] args) 
+{ 
+table obj1 = new table(); 
+Console.WriteLine(obj1.material); 
+Console.WriteLine(obj1.price); 
+Console.WriteLine(obj1.Height); 
+Console.ReadKey(); 
+} 
+} 
+} 
+
+
+
+
+b) Aim: Write a program to implement Multiple Inheritance. 
+⮚ Code:  
+using System; 
+namespace ConsoleApp2 
+{ 
+interface Gross 
+{ 
+int ta 
+{ 
+get; 
+set; 
+} 
+int da 
+{ 
+get; 
+set; 
+} 
+int GrossSal(); 
+} 
+class Employee 
+{ 
+string name; 
+public Employee(string name) 
+{ this.name = name; } 
+public int BasicSal(int basicSal) 
+{ return basicSal; } 
+public void ShowData() 
+{ 
+Console.WriteLine("Name:" + name); 
+} 
+} 
+class Salary : Employee, Gross 
+{ 
+int hra; 
+public Salary(string name, int hra) 
+: base(name) 
+{ this.hra = hra; } 
+public int ta 
+{ 
+get { return S_ta; } 
+set { S_ta = value; } 
+} 
+private int S_ta; 
+public int da 
+{
+get { return S_da; } 
+set { S_da = value; } 
+} 
+private int S_da; 
+public int GrossSal() 
+{ 
+int gSal; 
+gSal = hra + ta + da + BasicSal(20000); 
+return gSal; 
+} 
+public void dispSal() 
+{ 
+base.ShowData(); 
+Console.WriteLine("Gross Sal:" + GrossSal()); 
+} 
+} 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+Salary s = new Salary("Neha", 35000); 
+s.da = 20000; 
+s.ta = 30000; 
+s.dispSal(); 
+Console.ReadKey(); 
+} 
+} 
+} 
+
+
+
+
+ 
+
+c) Aim: Write a program to implement Hierarchical Inheritance. 
+⮚ Code:  
+using System; 
+namespace Hierarchical 
+{ 
+class employee 
+{ 
+public virtual void display1() 
+{ 
+Console.WriteLine("Display of employee class called"); } 
+} 
+class Programmer : employee 
+{ 
+public void display() 
+{ 
+Console.WriteLine("Display of Programmer class called"); } 
+} 
+class Manager : employee 
+{ 
+public void display() 
+{ 
+Console.WriteLine("Display of Manager class called"); 
+} 
+} 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+Programmer objProgrammer; 
+Manager objManager; 
+Console.Write("Whose details you want to use to 
+see\n1.Programmer\n2.Manager\n"); 
+int choice = int.Parse(Console.ReadLine()); 
+if (choice==1) 
+{ 
+objProgrammer = new Programmer(); 
+objProgrammer.display(); 
+objProgrammer.display1(); 
+Console.ReadKey(); 
+} 
+else if (choice==2) 
+{
+objManager = new Manager(); 
+objManager.display(); 
+objManager.display1(); 
+Console.ReadKey(); 
+} 
+else 
+{ 
+Console.WriteLine("Wrong choice entered"); 
+Console.ReadKey(); 
+} 
+} 
+} 
+} 
+
+
+
+
+  
+d) Aim: Write a program to implement Multilevel Inheritance. 
+⮚ Code:  
+using System; 
+namespace ConsoleApplication3 
+{ 
+public class Animal 
+{ 
+public void eat() { Console.WriteLine("Eating"); } 
+} 
+public class Dog : Animal 
+{ 
+public void bark() { Console.WriteLine("Barking"); } 
+} 
+public class BabyDog : Dog 
+{ 
+public void weap() { Console.WriteLine("Weaping"); } 
+} 
+class TestInheritance2 
+{ 
+public static void Main(string[] args) 
+{ 
+BabyDog d1 = new BabyDog(); 
+d1.eat(); 
+d1.bark(); 
+d1.weap(); 
+} 
+} 
+} 
+
+
+
+
+
+ 
+iii. Constructor Overloading : 
+∙ Aim: Write a C# program to illustrate Constructor Overloading.  
+⮚ Code:  
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+using System.Text; 
+using System.Threading.Tasks; 
+namespace Constructor 
+{ 
+class Distance 
+{ 
+int dis1, dis2, dis3; 
+public Distance(int dis1,int dis2) 
+{ 
+this.dis1 = dis1; 
+this.dis2 = dis2; 
+} 
+public void addition() 
+{ 
+dis3 = dis1 + dis2; 
+} 
+public void display() 
+{ 
+Console.WriteLine("Distance1:" + dis1); 
+Console.WriteLine("Distance2:" + dis2); 
+Console.WriteLine("Distance3:" + dis3); 
+} 
+} 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+Distance objDistance = new Distance(10, 20); 
+objDistance.addition(); 
+objDistance.display(); 
+Console.ReadKey(); 
+} 
+}}
+
+
+
+
+
+ 
+
+iv. Interfaces : 
+∙ Aim : Write a C# program to illustrate the concept of Interfaces.  
+⮚ Code:  
+using System; 
+namespace Interface 
+{ 
+interface IPolygon 
+{ 
+void calculateArea(int l, int b); 
+} 
+class Rectangle : IPolygon 
+{ 
+public void calculateArea(int l, int b) 
+{ 
+int area = l * b; 
+Console.WriteLine("Area of Rectangle:" + area); 
+} 
+} 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+Rectangle r1 = new Rectangle(); 
+r1.calculateArea(100, 200); 
+Console.ReadKey(); 
+} 
+} 
+} 
+
+
+
+
+ 
+b) Create a simple application to demonstrate the use of following concepts: i. Using Delegates & Events: 
+a) Aim : Write a program to implement the concept of Delegates. 
+⮚ Code:  
+using System; 
+delegate int NumberChanger(int n); 
+namespace DelegateAppl 
+{ 
+class TestDelegate 
+{ 
+static int num = 10; 
+public static int AddNum(int p) 
+{ 
+num += p; 
+return num; 
+} 
+public static int MultiNum(int q) 
+{ 
+num *= q; 
+return num; 
+} 
+public static int getNum() 
+{ 
+return num; 
+} 
+public static void Main(string[] args) 
+{ 
+NumberChanger nc1 = new NumberChanger(AddNum); 
+NumberChanger nc2 = new NumberChanger(MultiNum); 
+nc1(25); 
+Console.WriteLine("Value of Num: {0}", getNum()); 
+nc2(5); 
+Console.WriteLine("Value of Num: {0}", getNum()); 
+Console.ReadKey(); 
+} 
+} 
+}
+
+
+
+
+
+ 
+b) Aim : Write a program to implement the concept of Delegates & Events. 
+⮚ Code:  
+using System; 
+namespace JNK_Delegate 
+{ 
+public delegate string MyDel(string str); 
+class EventProgram 
+{ 
+event MyDel MyEvent; 
+public EventProgram() 
+{ 
+this.MyEvent += new MyDel(this.WelcomeUser); 
+} 
+public string WelcomeUser(string username) 
+{ 
+return "Welcome to " + username; 
+} 
+static void Main(string[] args) 
+{ 
+EventProgram obj1 = new EventProgram(); 
+string result = obj1.MyEvent("Practical-2!"); 
+Console.WriteLine(result); 
+Console.ReadKey(); 
+} 
+} 
+} 
+
+
+
+
+
+
+ii. Exception Handling : 
+Aim : Write a C# program to implement the concept of Exception Handling. 
+⮚ Code:  
+using System; 
+class Program 
+{ 
+static void Main() 
+{ 
+string[] colors = { "Red", "Blue", "Green" }; 
+try 
+{ 
+Console.WriteLine(colors[5]); 
+} 
+catch(IndexOutOfRangeException e) 
+{ 
+Console.WriteLine("An Exception Occured: " + e.Message); 
+Console.ReadKey(); 
+} 
+} 
+} 
