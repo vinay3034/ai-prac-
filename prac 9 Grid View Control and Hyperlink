@@ -1,6 +1,15 @@
 Practical 9A: Grid View Control and Hyperlink
 WebForm1.aspx.cs:
-protected void Page_Load(object sender, EventArgs e)
+using System;
+using System.Data;  // Required for DataTable
+using System.Web.UI;
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+     
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
@@ -17,90 +26,181 @@ protected void Page_Load(object sender, EventArgs e)
             }
         }
 
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // You can handle row selection events here if needed
+        }
+    }
+}
+
 WebForm1.aspx:
-<asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>GridView with Hyperlink Example</title>
+</head>
+<body style="height: 214px">
+    <form id="form1" runat="server">
+        <!-- GridView to display employee data -->
+        <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
             <Columns>
                 <asp:HyperLinkField DataNavigateUrlFields="Id" DataNavigateUrlFormatString="~/Details.aspx?Id={0}" DataTextField="Name" HeaderText="Name" />
             </Columns>
         </asp:GridView>
 
-Output:
+    </form>
+</body>
+</html>
+
+
  
 —------------------------------------------------------------------------------------------------------------------------------------------------
 Practical 9B: Grid View
 WebForm2.aspx.cs:
-protected void Page_Load(object sender, EventArgs e)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
         {
             SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
-            string selectSQL = "SELECT ProductID, ProductName, UnitPrice FROM Product";
+            conn.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=patkar;Integrated Security=True";
+            string selectSQL = "SELECT EID,EName,Salary FROM Employee";
             SqlCommand cmd = new SqlCommand(selectSQL, conn);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
-            adapter.Fill(ds, "Product");
-
+            adapter.Fill(ds, "Employee");
             GridView1.DataSource = ds;
             GridView1.DataBind();
         }
 
-protected void GridView1_RowCommand1(object sender, GridViewCommandEventArgs e)
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void GridView1_RowCommand1(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "Select")
             {
                 int rowIndex = Convert.ToInt32(e.CommandArgument);
                 GridViewRow row = GridView1.Rows[rowIndex];
-
-                string ProductName = row.Cells[0].Text;
-
-                string UnitPrice = row.Cells[1].Text;
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('ProductName: " + ProductName + "\\n UnitPrice: " + UnitPrice + "');", true);
+                string name = row.Cells[2].Text;
+                string salary = row.Cells[3].Text;
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Name:" + name + "\\nSalary:" + salary + "');", true);
             }
         }
+    }
+}
 
-WebForm1.aspx:
-<asp:GridView ID="GridView1" runat="server" OnRowCommand="GridView1_RowCommand1" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>GridView with Hyperlink Example</title>
+</head>
+<body style="height: 214px">
+    <form id="form1" runat="server">
+        <!-- GridView to display employee data -->
+        <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
             <Columns>
-                <asp:CommandField ButtonType="Button" ShowSelectButton="True" />
+                <asp:CommandField ShowSelectButton = "True" ButtonType = "Button"
+                SelectText = "Select" />
             </Columns>
         </asp:GridView>
 
-Output:
+    </form>
+</body>
+</html>
+
  
  
 —------------------------------------------------------------------------------------------------------------------------------------------------
 Practical 9C: Grid View Paging
 WebForm3.aspx.cs:
-protected void Page_Load(object sender, EventArgs e)
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            if (!IsPostBack)
             {
-                this.BindGrid();
+                BindGridView();
             }
+
         }
-        private void BindGrid()
+
+        private void BindGridView()
         {
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = "Data Source=COMP123;Initial Catalog=TYIT;Integrated Security=True";
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=patkar;Integrated Security=True";
+            String selectSQL = "SELECT * from Employee";
 
-            string selectSQL = "SELECT ProductID, ProductName, UnitPrice FROM Product";
-            SqlCommand cmd = new SqlCommand(selectSQL, conn);
+            SqlCommand cmd = new SqlCommand(selectSQL, con);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-
+            con.Open();
             DataSet ds = new DataSet();
-            adapter.Fill(ds, "Product");
-            GridView1.DataSource = ds;
+            adapter.Fill(ds, "Employee");
+            GridView1.DataSource = ds.Tables["Employee"];
             GridView1.DataBind();
+            con.Close();
         }
 
-protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-            this.BindGrid();
+            this.BindGridView();
         }
 
-Output:
- 
- 
+    }
+}
+
+aspx
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body style="height: 312px">
+    <form id="form1" runat="server">
+    <div>
+    
+    </div>
+        <asp:GridView ID="GridView1" runat="server" OnPageIndexChanging="GridView1_PageIndexChanging">
+</asp:GridView>
+
+    </form>
+</body>
+</html>
+
 —------------------------------------------------------------------------------------------------------------------------------------------------
 
 
