@@ -1,0 +1,214 @@
+a. Aim : Create a simple web page with various server controls to demonstrate
+setting and use of their properties.
+HTML Code:
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Practical_3.aspx.cs" Inherits="WebApplication2.Practical_3" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div style="text-align: left">
+    
+        Enter Your Name :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+        <br />
+        <br />
+        Address :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:TextBox ID="TextBox2" runat="server" Height="65px" ></asp:TextBox>
+        <br />
+        <br />
+        Gender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        <asp:RadioButton ID="RadioButton1" runat="server" Text="Male" />
+&nbsp;
+        <asp:RadioButton ID="RadioButton2" runat="server" Text="Female" />
+        <br />
+        <br />
+        Hobbies :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:CheckBox ID="CheckBox1" runat="server" Text="Reading" />
+&nbsp;
+        <asp:CheckBox ID="CheckBox2" runat="server" Text="Writing" />
+&nbsp;
+        <asp:CheckBox ID="CheckBox5" runat="server" Text="Singing" />
+&nbsp;
+        <asp:CheckBox ID="CheckBox4" runat="server" Text="Dancing" />
+        <br />
+        <br />Date Of Birth :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="DropDownList1" runat="server">
+        </asp:DropDownList>
+        <asp:DropDownList ID="DropDownList2" runat="server">
+        </asp:DropDownList>
+        <asp:DropDownList ID="DropDownList3" runat="server">
+        </asp:DropDownList>
+        <br />
+        <br />
+        Subject :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:DropDownList ID="DropDownList4" runat="server" >
+        </asp:DropDownList>
+        <br />
+        <br />
+        <asp:TextBox ID="TextBox3" runat="server" Height="134px" Width="269px" TextMode="MultiLine"></asp:TextBox>
+        <br />
+        <br />
+        <asp:Button ID="Button1" runat="server" Text="Submit" OnClick="Button1_Click" />
+    
+    </div>
+    </form>
+</body>
+</html>
+
+
+
+c# code:
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace WebApplication2
+{
+    public partial class Practical_3 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            for (int i = 1; i <= 31; i++)
+            {
+                DropDownList1.Items.Add(i.ToString());
+            }
+            for (int i = 1; i <= 12; i++)
+            {
+                DropDownList2.Items.Add(i.ToString());
+            }
+            for (int i = 2000; i <= 2024; i++)
+            {
+                DropDownList3.Items.Add(i.ToString());
+            }
+            DropDownList4.Items.Add("AI");
+            DropDownList4.Items.Add("AWP");
+            DropDownList4.Items.Add("IoT");
+            DropDownList4.Items.Add("SPM");
+            DropDownList4.Items.Add("EJ");
+
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            String str = "";
+            str = "Your Name is : " + TextBox1.Text + "\n";
+            str = str + "Your Address is :" + TextBox2.Text + "\n";
+            if (RadioButton1.Checked)
+            {
+                str = str + RadioButton1.Text + "\n";
+            }
+            else
+            {
+                str = str + RadioButton2.Text + "\n";
+            }
+            if (CheckBox1.Checked)
+            {
+                str = str + "Your Hobbies are : " + CheckBox1.Text + "\n";
+            }
+            if (CheckBox2.Checked)
+            {
+                str = str + "" + CheckBox2.Text + "\n";
+            }
+            if (CheckBox5.Checked)
+            {
+                str = str + "" + CheckBox5.Text + "\n";
+            }
+            if (CheckBox4.Checked)
+            {
+                str = str + "" + CheckBox4.Text + "\n";
+            }
+            str = str + "\nYour DOB is : " + DropDownList1.Text + "/" + DropDownList2.Text +
+            "/" + DropDownList3.Text + "\n";
+            str = str + "Your Subject is : " + DropDownList4.Text + "\n";
+            TextBox3.Text = str;
+        }
+    }
+}
+
+
+
+b. Aim: Demonstrate the use of Calendar control to perform following operations.
+
+i. Display messages in a calendar control
+ii. Display vacation in a calendar control
+iii. Selected day in a calendar control using style
+iv. Difference between two calendar dates.
+
+ Code:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace WebApplication2
+{
+    public partial class Practical3_B : System.Web.UI.Page
+    {
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Calendar1.Caption = "Batch3JN";
+            Calendar1.FirstDayOfWeek = FirstDayOfWeek.Sunday;
+            Calendar1.NextPrevFormat = NextPrevFormat.ShortMonth;
+            Calendar1.TitleFormat = TitleFormat.Month;
+            Label3.Text = "Todays Date:" + Calendar1.TodaysDate.ToShortDateString();
+            Label4.Text = "Ganapati Vacation Start:13-9-2023";
+            TimeSpan d = new DateTime(2024, 9, 14) - DateTime.Now;
+            Label5.Text = "Days Remaining for Ganapati Vacation:" + d.Days.ToString();
+            TimeSpan d1 = new DateTime(2024, 12, 30) - DateTime.Now;
+            Label6.Text = "Days Remaining for New Year:" + d1.Days.ToString();
+            if (Calendar1.SelectedDate.ToShortDateString() == "13-9-2024")
+                Label4.Text = "<b>Ganapati Festival Start!</b>";
+            if (Calendar1.SelectedDate.ToShortDateString() == "23-9-2024")
+                Label4.Text = "<b>Ganapati Festival End!</b>";
+        }
+        protected void Button2_Click(object sender, EventArgs e)
+{
+            Label2.Text = "";
+            Label3.Text = "";
+            Label4.Text = "";
+            Label5.Text = "";
+            Label6.Text = "";
+            Calendar1.SelectedDates.Clear();
+}
+protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
+{
+    if(e.Day.Date.Day==5&&e.Day.Date.Month==9)
+            {
+                e.Cell.BackColor = System.Drawing.Color.Lavender;
+                Label lbl = new Label();
+                lbl.Text= "<br>Teachers Day!";
+                e.Cell.Controls.Add(lbl);
+                Image g1 = new Image();
+                g1.ImageUrl = "image.jpg";
+                g1.Height = 28;
+                g1.Width = 28;
+                e.Cell.Controls.Add(g1);
+                if(e.Day.Date.Day == 13 && e.Day.Date.Month==9)
+                {
+                    Calendar1.SelectedDate = new DateTime(2023, 9, 12);
+                    Calendar1.SelectedDates.SelectRange(Calendar1.SelectedDate,
+                    Calendar1.SelectedDate.AddDays(10));
+                    Label lbl1= new Label();
+                    lbl1.Text = "<br>Ganapati!";
+                    e.Cell.Controls.Add(lbl1);
+                }
+            }
+}
+
+protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+{
+    Label2.Text = "Your Selected Date:" + Calendar1.SelectedDate.Date.ToString();
+}
+}
+}
