@@ -1,0 +1,19 @@
+a. Aim: Create a Registration form to demonstrate use of various Validation
+
+controls.
+
+i. Using RequiredFieldValidator, CompareValidator, RangeValidator,
+RegularExpressionValidator :
+
+ii. Using Custom Validator.
+⮚ Code:
+∙ ServerValidate Event:
+protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
+{
+string str = args.Value;
+args.IsValid = false;
+if(str.Length<6||str.Length>25)
+    {
+        return;
+    }
+}
