@@ -1,95 +1,292 @@
 A) Create a web application to display Databinding using dropdownlist control.
 Create a web page with DropDownList control, one Button and one Label
 control.
-protected void Page_Load(object sender, EventArgs e)
+
+create a databse 
+table named cities :
+under that id , city
+inside that name the city and make id
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace WebApplication9
 {
-if (IsPostBack == false)
-{
-SqlConnection conn=new SqlConnection();
-conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
-Security=True";
-//stringconnStr = ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
-//SqlCommand cmd = new SqlCommand("Select Id,city from City", conn);
-SqlCommand cmd = new SqlCommand(“select Id,city from City”, conn);
-conn.Open();
-SqlDataReader reader = cmd.ExecuteReader();
-DropDownList1.DataSource = reader;
-DropDownList1.DataTextField = "City";
-DropDownList1.DataBind();
-reader.Close();
-conn.Close();
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (IsPostBack == false)
+                {
+                SqlConnection conn=new SqlConnection();
+                conn.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=TYIIT;Integrated Security=True";
+                
+                //don't connect the data to the dropdown list control let it remain unbound
+                SqlCommand cmd = new SqlCommand("select ID,city from Cities", conn);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                DropDownList1.DataSource = reader;
+                DropDownList1.DataTextField = "City";
+                DropDownList1.DataBind();
+                reader.Close();
+                conn.Close();
+                }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+        Label1.Text = "You Have Selected : " + DropDownList1.SelectedValue;
+        }
+
+        protected void SqlDataSource1_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
+        {
+
+        }
+    }
 }
-}
-protected void Button1_Click(object sender, EventArgs e)
-{
-Label1.Text = "You Have Selected : " + DropDownList1.SelectedValue;
-} }
+
+
+
+aspx file 
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body style="height: 388px">
+    <form id="form1" runat="server">
+        <div>
+            <br />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="z-index: 1; left: 220px; top: 62px; position: absolute" Text="Button" />
+            <asp:Label ID="Label1" runat="server" style="z-index: 1; left: 228px; top: 148px; position: absolute" Text="Label"></asp:Label>
+            <asp:DropDownList ID="DropDownList1" runat="server">
+            </asp:DropDownList>
+        </div>
+    </form>
+</body>
+</html>
+
+
 
 
 B) Create a web application for to display the phone no of an author using database
-protected void Page_Load(object sender, EventArgs e)
-{
-if (IsPostBack == false)
-{
-SqlConnection conn=new SqlConnection();
-conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
-Security=True";
-//stringconnStr =
-ConfigurationManager.ConnectionStrings["connStr"].ConnectionString;
-//SqlCommand cmd = new SqlCommand("Select Id,city from City", conn);
-SqlCommand cmd = new SqlCommand("select * from Book", conn);
-conn.Open();
-SqlDataReader reader = cmd.ExecuteReader();
-DropDownList1.DataSource = reader;
 
-DropDownList1.DataTextField = "book";
-DropDownList1.DataBind();
-reader.Close();
-conn.Close();
-}
-}
-protected void Button1_Click(object sender, EventArgs e)
+add database> add table named Book1 > edit it
+
+using System;
+using System.Data.SqlClient;
+using System.Web.UI;
+
+namespace WebApplication9
 {
-SqlConnection conn=new SqlConnection();
-conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
-Security=True";
-string selectSQL;
-selectSQL = "select author from Book ";
-selectSQL += "WHERE id=" + DropDownList1.SelectedItem.Value + "";
-SqlCommand cmd = new SqlCommand(selectSQL, conn);
-cmd.Connection = conn;
-conn.Open();
-SqlDataReader reader = cmd.ExecuteReader();
-while (reader.Read())
-{
-Label1.Text = reader["author"].ToString();
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                SqlConnection conn = new SqlConnection();
+                conn.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=TYIIT;Integrated Security=True";
+
+                SqlCommand cmd = new SqlCommand("select * from Book1", conn);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                DropDownList1.DataSource = reader;
+                DropDownList1.DataValueField = "id"; // ID of the book
+                DropDownList1.DataTextField = "book"; // Name of the book
+                DropDownList1.DataBind();
+
+                reader.Close();
+                conn.Close();
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Data Source=CHIVILKARS;Initial Catalog=TYIIT;Integrated Security=True";
+
+            string selectSQL = "select author from Book1 WHERE id=" + DropDownList1.SelectedItem.Value;
+            SqlCommand cmd = new SqlCommand(selectSQL, conn);
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Label1.Text = reader["author"].ToString();
+            }
+
+            reader.Close();
+            conn.Close();
+        }
+
+        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // You can add your logic here when the DropDownList selection is changed
+        }
+    }
 }
-reader.Close();
-conn.Close();
-}
+aspx file
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body style="height: 388px">
+    <form id="form1" runat="server">
+        <div>
+            <br />
+            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="z-index: 1; left: 220px; top: 62px; position: absolute" Text="Button" />
+            <asp:Label ID="Label1" runat="server" style="z-index: 1; left: 228px; top: 148px; position: absolute" Text="Label"></asp:Label>
+            <asp:DropDownList ID="DropDownList1" runat="server" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+            </asp:DropDownList>
+        </div>
+    </form>
+</body>
+</html>
+
+
+
 
 C) Create a web application for inserting and deleting record from a database. (Using Execute-
 Non Query).
 
-4 Lables , 3 Textboxes and 1 Button
-protected void Button1_Click(object sender, EventArgs e)
-{
-SqlConnection conn=new SqlConnection();
-conn.ConnectionString="Data Source=COMP254;Initial Catalog=TYIT;Integrated
-Security=True";
-string InsertQuery = "insert into Book values(@id, @book,
-@author)";
-SqlCommand cmd = new SqlCommand(InsertQuery, conn);
-cmd.Parameters.AddWithValue("@id", TextBox1.Text);
-cmd.Parameters.AddWithValue("@book", TextBox2.Text);
-cmd.Parameters.AddWithValue("@author", TextBox3.Text);
-conn.Open();
-cmd.ExecuteNonQuery();
-Label4.Text = "Record Inserted Successfuly.";
-conn.Close();
-}
+1 Lables , 3 Textboxes and 1 Button
 
-stringInsertQuery = "delete from branch where NAME=@NAME";
-SqlCommandcmd = new SqlCommand(InsertQuery, con);
-cmd.Parameters.AddWithValue("@NAME", TextBox1.Text);
-con.Open( );
+using System;
+using System.Data.SqlClient;
+
+namespace WebApplication9
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validation to check if fields are empty
+                if (string.IsNullOrEmpty(TextBox1.Text) || string.IsNullOrEmpty(TextBox2.Text) || string.IsNullOrEmpty(TextBox3.Text))
+                {
+                    Label1.Text = "All fields are required.";
+                    return;
+                }
+
+                // Insert operation
+                using (SqlConnection conn = new SqlConnection("Data Source=CHIVILKARS;Initial Catalog=TYIIT;Integrated Security=True"))
+                {
+                    string InsertQuery = "INSERT INTO Book1 (id, book, author) VALUES (@id, @book, @author)";
+                    using (SqlCommand cmd = new SqlCommand(InsertQuery, conn))
+                    {
+                        // Defining parameters explicitly
+                        cmd.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = Convert.ToInt32(TextBox1.Text);
+                        cmd.Parameters.Add("@book", System.Data.SqlDbType.NVarChar, 100).Value = TextBox2.Text;
+                        cmd.Parameters.Add("@author", System.Data.SqlDbType.NVarChar, 100).Value = TextBox3.Text;
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        Label1.Text = "Record Inserted Successfully.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Label1.Text = "Error: " + ex.Message;
+            }
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(TextBox1.Text))
+                {
+                    Label1.Text = "ID is required for deletion.";
+                    return;
+                }
+
+                // Delete operation
+                using (SqlConnection conn = new SqlConnection("Data Source=CHIVILKARS;Initial Catalog=TYIIT;Integrated Security=True"))
+                {
+                    string DeleteQuery = "DELETE FROM Book1 WHERE id = @id";
+                    using (SqlCommand cmd = new SqlCommand(DeleteQuery, conn))
+                    {
+                        cmd.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = Convert.ToInt32(TextBox1.Text);
+
+                        conn.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            Label1.Text = "Record Deleted Successfully.";
+                        }
+                        else
+                        {
+                            Label1.Text = "No record found with the given ID.";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Label1.Text = "Error: " + ex.Message;
+            }
+        }
+    }
+}
+aspx file
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication9.WebForm1" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Insert/Delete Record</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <!-- TextBox for ID -->
+            <asp:Label ID="Label2" runat="server" Text="ID: "></asp:Label>
+            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+            <br /><br />
+
+            <!-- TextBox for Book Name -->
+            <asp:Label ID="Label3" runat="server" Text="Book Name: "></asp:Label>
+            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+            <br /><br />
+
+            <!-- TextBox for Author Name -->
+            <asp:Label ID="Label4" runat="server" Text="Author: "></asp:Label>
+            <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+            <br /><br />
+
+            <!-- Insert Button -->
+            <asp:Button ID="Button1" runat="server" Text="Insert" OnClick="Button1_Click" />
+            <br /><br />
+
+            <!-- Delete Button -->
+            <asp:Button ID="Button2" runat="server" Text="Delete" OnClick="Button2_Click" />
+            <br /><br />
+
+            <!-- Label to show status message -->
+            <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+        </div>
+    </form>
+</body>
+</html>
