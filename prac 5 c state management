@@ -1,0 +1,87 @@
+Practical 5C: State Management
+A.) Code:
+protected void Button2_Click(object sender, EventArgs e)
+        {
+            Label1.Text = ViewState["name"].ToString();
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            ViewState["name"] = TextBox1.Text;
+            TextBox1.Text = "";
+        }
+
+Output:
+ 
+B.) WebForm1.aspx
+Code:
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            Session["name"] = TextBox1.Text;
+            Session["city"] = TextBox2.Text;
+            Response.Redirect("next.aspx");
+        }
+
+Output:
+ 
+
+next.aspx
+Code:
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            Label1.Text = Session["name"].ToString(); 
+            Label2.Text = Session["city"].ToString();
+        }
+
+Output:
+ 
+C.) Code:
+protected void btnvisit_Click(object sender, EventArgs e)
+{
+int count = 0;
+
+if (Application["Visit"] != null)
+{ 
+count = Convert.ToInt32(Application["Visit"].ToString());
+}
+
+count = count + 1;
+Application["Visit"] = count;
+Label1.Text = "Total Visit = " + count.ToString();
+}
+
+Output:
+ 
+D.) Code:
+protected void Button2_Click(object sender, EventArgs e)
+        {
+            if (Request.Cookies["name"] == null)
+            {
+                TextBox2.Text = "No cookie found";
+            }
+            else
+            {
+                TextBox2.Text =
+                    Request.Cookies["name"].Value;
+            }
+        }
+
+
+Output:
+ 
+
+E.) Query String
+WebForm1.aspx:
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("default2.aspx?firstname=" + TextBox1.Text + "&lastname=" + TextBox2.Text);
+        }
+
+default2.aspx:
+protected void Page_Load(object sender, EventArgs e)
+        {
+            string firstname = Request.QueryString["firstname"];
+            string lastname = Request.QueryString["lastname"];
+            Label1.Text = "welcome " + firstname + " " + lastname;
+        }
+Output:
