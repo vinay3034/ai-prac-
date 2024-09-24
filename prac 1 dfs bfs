@@ -1,38 +1,226 @@
-Practical 1A: dfs
-graph1={'A':['B','C'],
-        'B':['A'],
-        'C':['A','E','F'],
-        'D':['E'],
-        'E':['C','D','F'],
-        'F':['E','C']}
-def dfs(graph1,node,visited):
-    if node not in visited:
-        visited.append(node)
-        for n in graph1[node]:
-            dfs(graph1,n,visited)
-        return(visited)
-dfs_traversal=dfs(graph1,'A',[])
-print(dfs_traversal)
+ Enter 4 numbers and find the product of the same. 
+using System; 
+namespace ConsoleApplication1 
+{ 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+int num1, num2, num3, num4, prod; 
+Console.Write("Enter number 1:"); 
+num1 = Int32.Parse(Console.ReadLine()); 
+Console.Write("Enter number 2:"); 
+num2 = Convert.ToInt32(Console.ReadLine()); 
+Console.Write("Enter number 3:"); 
+num3 = Convert.ToInt32(Console.ReadLine()); 
+Console.Write("Enter number 4:"); 
+num4 = Convert.ToInt32(Console.ReadLine()); 
+prod = num1 * num2 * num3 * num4; 
+Console.WriteLine(num1 + "*" + num2 + "*" + num3 + "*" + num4 + "=" + prod); Console.ReadKey(); 
+} 
+} 
+} 
 
-1B) bfs
-graph={'5':['3','7'],
-       '3':['2','4'],
-       '7':['8'],
-       '2':[],
-       '4':['8'],
-       '8':[]}
-visited=[]
-queue=[]
-def bfs(visited,graph,node):
-    visited.append(node)
-    queue.append(node)
-    while queue:
-        m=queue.pop(0)
-        print(m,end=" ")
-        for neighbour in graph[m]:
-            if neighbour not in visited:
-                visited.append(neighbour)
-                queue.append(neighbour)
-print("Following is the Breadth-First-Search: ")
-bfs_traversal=bfs(visited,graph,'5')
-print(bfs_traversal)
+
+ 
+b) Aim: Create an application to demonstrate String operation 
+⮚ Code: 
+using System;
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        { 
+            Console.Write("Enter string 1:");
+            string words = Console.ReadLine();
+            Console.Write("Enter string 2:");
+            string words2 = Console.ReadLine();
+            string words3 = words + " " + words2+"\n\n";
+            Console.Write(words3);
+
+            Console.Write("Enter name:");
+            string name = Console.ReadLine();
+            int length = +name.Length;
+            Console.WriteLine("Length: " + length+"\n");
+
+            string str1 = "hello";
+            string str2 = "hello";
+            string str3 = "no hello";
+            Boolean result1 = str1.Equals(str2);
+            Console.WriteLine("str1 :"+str1);
+            Console.WriteLine("str2 :"+str2);
+            Console.WriteLine("str3 :" + str3);
+            Console.WriteLine("str1 and str2 are equal: " + result1); 
+            Boolean result2 = str1.Equals(str3);
+            Console.WriteLine("str1 and str3 are equal: " +
+            result2+"\n\n"); 
+
+            object[] array = { "Mango", "Apple","Blueberry" };
+            string Fruits = string.Join(", ", array);
+            Console.WriteLine("Value of string Fruits is : " + Fruits +"\n\n");
+            Console.ReadKey();
+        }
+    }
+}
+⮚Output:
+ 
+ 
+c) Create an application to demonstrate the following operations: 
+⮚ Aim: Write program using conditional statements & loops: 
+i. Aim: Generate Fibonacci series. 
+⮚ Code: 
+using System;
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num1 = 0, num2 = 1, num3, num, counter;
+            Console.Write("Enter the Limit:");
+            num = int.Parse(Console.ReadLine());
+            counter = 2;
+            Console.Write("Fibonacci Series: ");
+            Console.Write(num1 + " " + num2);
+            while (counter <= num)
+            {
+                num3 = num1 + num2;
+                if (counter >= num)
+                    break;
+                Console.Write(" " + num3);
+                num1 = num2;
+                num2 = num3;
+                counter++;
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+⮚ Output: 
+
+
+
+
+ii. Aim: Check whether the given number is “Prime” or not. 
+⮚ Code: 
+using System;
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int num,i,flag = 0;
+            Console.Write("Enter number:");
+            num = int.Parse(Console.ReadLine());
+            for (i=2; i <= num / 2; i++) 
+            {
+                if (num % i == 0)
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (num == 0 || num == 1)
+            {
+                Console.WriteLine(num + " is neither prime nor composite number");
+            }
+            else if(flag == 1) 
+                Console.WriteLine(num + " is not prime number"); 
+            else 
+                Console.WriteLine(num + " is prime number"); 
+            Console.ReadKey(); 
+        } 
+    } 
+}
+⮚ Output: 
+
+
+
+
+iii. Aim: Check Whether the given character is Vowel or Not. 
+⮚ Code:  
+using System; 
+namespace ConsoleApplication1 
+{ 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+char ch; 
+Console.Write("Enter a character:"); 
+ch = (char)Console.Read();
+switch(ch) 
+{ 
+case 'a': 
+case 'A': 
+case 'e': 
+case 'E': 
+case 'i': 
+case 'I': 
+case 'o': 
+case 'O': 
+case 'u': 
+case 'U': 
+Console.WriteLine(ch+" is vowel"); 
+break; 
+default: 
+Console.Write(ch +" is not a vowel"); 
+break; 
+} 
+Console.ReadKey(); 
+} 
+}} 
+
+
+
+ 
+iv. Aim: USe of foreach loop with arrays. 
+⮚ Code: 
+using System; 
+class Program 
+{ 
+public static void Main() 
+{ 
+string[] str={ "Neha", "Jyoti", "TYIT" }; 
+foreach (Strings in str) 
+{ 
+Console.WriteLine(s); 
+}
+Console.ReadKey(); 
+} 
+} 
+⮚ Output: 
+ 
+
+v. Aim : Reverse given number & Find the sum of it. 
+⮚ Code: 
+using System; 
+namespace ConsoleApplication1 
+{ 
+class Program 
+{ 
+static void Main(string[] args) 
+{ 
+int num, actualnumber, revnum = 0, digit, sumDigits = 0; 
+Console.Write("Enter a number:"); 
+num = int.Parse(Console.ReadLine()); 
+actualnumber = num;
+while (num > 0) 
+{ 
+digit = num % 10; 
+revnum = revnum * 10 + digit; 
+sumDigits = sumDigits + digit; 
+num = num / 10; 
+} 
+Console.WriteLine("Reverse of" + actualnumber + "=" + revnum); 
+Console.WriteLine("Sum of its digits:" + sumDigits); 
+Console.ReadKey(); 
+} 
+} 
+} 
+⮚ Output: 
+ 
+
