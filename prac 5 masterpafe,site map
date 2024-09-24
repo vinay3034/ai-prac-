@@ -1,0 +1,150 @@
+Practical 5A : 
+A.	Create Web Form to demonstrate use of Website Navigation controls and Site Map.
+Site Map:
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="Home.aspx" title="Home Page"  description="">
+        <siteMapNode url="Page1.aspx" title="First Page"  description="" />
+        <siteMapNode url="Page2.aspx" title="Second Page"  description="" />
+    </siteMapNode>
+</siteMap>
+
+
+
+Practical 5B:
+Stylesheet:
+body {
+    #header{
+color: #247BA0;
+text-align: center;
+font-size: 20px;
+}
+#nav{
+background-color:#FF1654;
+padding: 5px;
+}
+ul{
+
+list-style-type: none;
+}
+li a {
+
+color: #F1FAEE;
+font-size: 30px;
+column-width: 5%;
+}
+li
+{
+display: inline;
+padding-left: 2px;
+column-width: 20px;
+}
+a{
+text-decoration: none;
+margin-left:20px
+}
+li a:hover{
+background-color: #F3FFBD;
+color: #FF1654;
+padding:1%;
+}
+#side{
+text-align: center;
+float: right;
+width: 15%;
+padding-bottom: 79%;
+background-color: #F1FAEE;
+
+}
+#article{
+background-color: #EEF5DB;
+padding: 10px;
+padding-bottom: 75%;
+}
+#footer{
+background-color: #C7EFCF;
+text-align:center;
+padding-bottom: 5%;
+font-size: 20px;
+}
+#con{
+border:double;
+border-color:burlywood;
+}
+}
+
+Web Form Master Page:
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Practical_5B.Site1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>C# Corner</title>
+    <link href="StyleSheet1.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+        <header id="header">
+<h1>c# corner</h1>
+</header>
+        <nav id="nav">
+<ul>
+<li><a href="home.aspx">Home</a></li>
+<li><a href="#">About</a></li>
+<li><a href="#">Article</a></li>
+<li><a href="#">Contact</a></li>
+</ul>
+</nav>
+        <aside id="side">
+<h1>news</h1>
+<a href="#"><p>creating html website</p></a>
+<a href="#"><p>learn css</p></a>
+<a href="#">learn c#</a>
+</aside>
+    <div id="con">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    <footer id="footer">
+copyright @c# corner
+</footer>
+    <form id="form1" runat="server">
+    </form>
+</body>
+</html>
+
+Web Form with Master Page:
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="Practical_5B.WebForm1" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat=
+"server">
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<h1>Home page</h1>
+</asp:Content>
+
+
+Themes
+Skin:
+<asp:Button runat="server" BackColor="Green" ForeColor="White" Text="Button" Width="119px" />
+
+Web Form with Master Page:
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="Practical_5B.WebForm1" Theme="Theme1"%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat=
+"server">
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<h1>Home page</h1>
+    <form id="form1" runat="server">
+        <asp:Button ID="Button1" runat="server" Text="Button" />
+    </form>
+</asp:Content>
+
+
+
